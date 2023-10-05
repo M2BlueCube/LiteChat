@@ -58,7 +58,7 @@ internal class IdentityClient : IIdentityClient
         return token;
     }
 
-    public async Task<UserDto> GetUserNameAsync(string token, CancellationToken? cancellationToken = null)
+    public async Task<UserDto> GetUserAsync(string token, CancellationToken? cancellationToken = null)
     {
         var ct = cancellationToken ?? GetDefulatCancellationToken();
         using HttpClient httpClient = new();

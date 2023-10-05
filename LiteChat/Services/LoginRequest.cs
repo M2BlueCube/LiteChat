@@ -2,7 +2,7 @@
 
 namespace LiteChat.Services;
 
-internal class LoginRequest
+public class LoginRequest
 {
     [Required]
     public string PublicKey { get; init; } = string.Empty;

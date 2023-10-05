@@ -3,7 +3,7 @@ using System.Text;
 
 namespace LiteChat.Services;
 
-internal class RsaService : IRsaService
+public class RsaService : IRsaService
 {
     private static readonly RSAEncryptionPadding EncryptionPadding = RSAEncryptionPadding.Pkcs1;
     private static readonly RSASignaturePadding SignaturePadding = RSASignaturePadding.Pkcs1;
@@ -16,7 +16,7 @@ internal class RsaService : IRsaService
         var rsa = RSA.Create();
         return (rsa.ToXmlString(false), rsa.ToXmlString(true));
     }
-    public string Encrypt(string text, string publicKey)
+    public string? Encrypt(string text, string publicKey)
     {
         var rsa = CreateFromKey(publicKey);
         var textBytes = GetBytes(text);
@@ -40,7 +40,7 @@ internal class RsaService : IRsaService
         var encryptedText = Convert.ToBase64String(encryptedBytes);
         return encryptedText;
     }
-    public string Decrypt(string encryptedText, string privateKey)
+    public string? Decrypt(string encryptedText, string privateKey)
     {
         var rsa = CreateFromKey(privateKey);
         var encryptedBytes = Convert.FromBase64String(encryptedText);
@@ -64,7 +64,7 @@ internal class RsaService : IRsaService
         var decryptedText = GetString(bytes);
         return decryptedText;
     }
-    public string Sign(string text, string privateKey)
+    public string? Sign(string text, string privateKey)
     {
         var rsa = CreateFromKey(privateKey);
         var textBytes = GetBytes(text);
@@ -74,10 +74,18 @@ internal class RsaService : IRsaService
     }
     public bool Verify(string text, string publicKey, string signature)
     {
-        var rsa = CreateFromKey(publicKey);
-        var textBytes = GetBytes(text);
-        var signatureBytes = Convert.FromBase64String(signature);
-        return rsa.VerifyData(textBytes, signatureBytes, HashAlgorithm, SignaturePadding);
+        try
+        {
+            var rsa = CreateFromKey(publicKey);
+            var textBytes = GetBytes(text);
+            var signatureBytes = Convert.FromBase64String(signature);
+            var result = rsa.VerifyData(textBytes, signatureBytes, HashAlgorithm, SignaturePadding);
+            return result;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 
     public string GetPublicKeyFromPrivateKey(string privateKey)
@@ -87,25 +95,33 @@ internal class RsaService : IRsaService
         var publicKey = rsa.ToXmlString(false);
         return publicKey;
     }
-    private RSA CreateFromKey(string key)
+    public string GetNormalizedPublicKey(string publicKey)
+    {
+        var rsa = new RSACryptoServiceProvider();
+        rsa.FromXmlString(publicKey);
+        var normalizedPublicKey = rsa.ToXmlString(false);
+        return normalizedPublicKey;
+    }
+
+    private static RSA CreateFromKey(string key)
     {
         var rsa = new RSACryptoServiceProvider();
         rsa.FromXmlString(key);
         return rsa;
     }
-    private byte[] GetBytes(string text) => Encoding.Unicode.GetBytes(text);
-    private string GetString(byte[] textBytes) => Encoding.Unicode.GetString(textBytes);
-    private IList<byte[]> Split(byte[] input, int blockSize)
+    private static byte[] GetBytes(string text) => Encoding.Unicode.GetBytes(text);
+    private static string GetString(byte[] textBytes) => Encoding.Unicode.GetString(textBytes);
+    private static IList<byte[]> Split(byte[] input, int blockSize)
     {
         var result = new List<byte[]>();
-        var numberOfBlock = (input.Length / blockSize) + (input.Length % blockSize == 0 ? 0 : 1);
+        var numberOfBlock = (input.Count() / blockSize) + (input.Count() % blockSize == 0 ? 0 : 1);
         for (var i = 0; i < numberOfBlock; i++)
         {
             result.Add(input.Skip(i * blockSize).Take(blockSize).ToArray());
         }
         return result;
     }
-    private byte[] Merge(IList<byte[]> input)
+    private static byte[] Merge(IList<byte[]> input)
     {
         var totalSize = input.Sum(item => item.Length);
         var result = new byte[totalSize];

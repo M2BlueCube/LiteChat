@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LiteChat.View.LoginPage"
+             xmlns:viewModel="clr-namespace:LiteChat.ViewModel"
+             Title="LoginPage">
+    <ContentPage.BindingContext>
+        <viewModel:LoginViewModel/>
+    </ContentPage.BindingContext>
+    
+    <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+        
+        <Image
+            Source="blue_cube.png"
+            HeightRequest="200"
+            HorizontalOptions="Center" />
+        
+        <Label
+            Text="Welcome to BlueCube"
+            SemanticProperties.HeadingLevel="Level1"
+            FontSize="18"
+            HorizontalOptions="Center" />
+        <Label
+            Text="Log in with your account to continue"
+            SemanticProperties.HeadingLevel="Level2"
+            FontSize="14"
+            HorizontalOptions="Center" />
+
+        <HorizontalStackLayout HorizontalOptions="Center" >
+            <Entry 
+                Placeholder="Enter your private key here ..."
+                Text="{Binding PrivateKey}" 
+                WidthRequest="240" 
+                Margin="10" />
+            <Button 
+                Text="Regenerate" 
+                BackgroundColor="DarkBlue" 
+                TextColor="WhiteSmoke" 
+                Command ="{Binding GenerateKeyCommand}"
+                Margin="10" />
+        </HorizontalStackLayout>
+
+        <ScrollView  HeightRequest="140" WidthRequest="400">
+            <Label 
+                Text="{Binding Message}" 
+                TextColor="{Binding MessageColor}"
+                HorizontalOptions="Center" 
+                Margin="10" />
+        </ScrollView>
+        
+        <HorizontalStackLayout  HorizontalOptions="Center"  >
+            <Button
+                Text="Register"
+                Command="{Binding RegisterCommand}"
+                WidthRequest="120"
+                TextColor="WhiteSmoke"
+                Background="DarkGreen"
+                HorizontalOptions="Center" 
+                Margin="10" />
+            <Button
+                Text="Login"
+                Command="{Binding LogInCommand}"
+                WidthRequest="120"
+                TextColor="WhiteSmoke"
+                Background="DarkGreen" 
+                HorizontalOptions="Center"
+                Margin="10" />
+        </HorizontalStackLayout>
+        
+    </VerticalStackLayout>
+</ContentPage>

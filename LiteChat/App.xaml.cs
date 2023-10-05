@@ -1,4 +1,6 @@
-﻿namespace LiteChat;
+﻿using LiteChat.View;
+
+namespace LiteChat;
 
 public partial class App : Application
 {
@@ -6,6 +8,10 @@ public partial class App : Application
 	{
 		InitializeComponent();
 
-		MainPage = new AppShell();
-	}
+        string privateKey = Preferences.Get("privateKey", string.Empty);
+        if (string.IsNullOrEmpty( privateKey))
+			MainPage = new LoginPage();
+		else
+            MainPage = new MainPage(privateKey);
+    }
 }

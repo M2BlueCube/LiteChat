@@ -1,24 +1,24 @@
-﻿namespace LiteChat;
+﻿using LiteChat.Services;
+using LiteChat.View;
+using LiteChat.ViewModel;
+
+namespace LiteChat;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+	private readonly string PrivateKey;
 
-	public MainPage()
+	public MainPage(string privateKey)
 	{
 		InitializeComponent();
-	}
+        BindingContext = new MainViewModel(privateKey);
+    }
 
-	private void OnCounterClicked(object sender, EventArgs e)
-	{
-		count++;
-
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
-
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+    private void OnLogoutClicked(object sender, EventArgs e)
+    {
+        Preferences.Remove("privateKey");
+        Preferences.Remove("token");
+        Application.Current.MainPage = new LoginPage();
+    }
 }
 

@@ -1,6 +1,6 @@
 ﻿namespace LiteChat.Services;
 
-internal interface IRsaService
+public interface IRsaService
 {
     (string publicKey, string privateKey) CreateKeys();
     string Encrypt(string text, string publicKey);
