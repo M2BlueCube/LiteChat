@@ -15,7 +15,7 @@ internal class IdentityClient : IIdentityClient
     private static CancellationToken GetDefulatCancellationToken()
     {
         CancellationTokenSource cts = new();
-        cts.CancelAfter(TimeSpan.FromSeconds(3));
+        cts.CancelAfter(TimeSpan.FromSeconds(30));
         return cts.Token;
     }
 
@@ -33,7 +33,7 @@ internal class IdentityClient : IIdentityClient
         var response = await httpClient.PostAsync(_baseUrl + "Register", content, ct);
         var responseString = await response.Content.ReadAsStringAsync(ct);
         if (!response.IsSuccessStatusCode)
-            throw new Exception($"request was failed : {responseString}");
+            throw new Exception($"Register was failed : {responseString}");
     }
 
     public async Task<string> LoginAsync(string privateKey, CancellationToken? cancellationToken = null)
@@ -51,7 +51,7 @@ internal class IdentityClient : IIdentityClient
         var response = await httpClient.PostAsync(_baseUrl + "Login", content, ct);
         var responseString = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
-            throw new Exception($"request was failed : {responseString}");
+            throw new Exception($"Login was failed : {responseString}");
         var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(responseString);
         var encryptToken = loginResponse.Token;
         var token = rsa.Decrypt(encryptToken, privateKey);
@@ -66,7 +66,7 @@ internal class IdentityClient : IIdentityClient
         var response = await httpClient.GetAsync(_baseUrl + "MyUser", ct);
         var responseString = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
-            throw new Exception($"request was failed : {responseString}");
+            throw new Exception($"GetUser was failed : {responseString}");
         var user = JsonConvert.DeserializeObject<UserDto>(responseString);
         return user;
     }

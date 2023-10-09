@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LiteChat.View.ChatBox">
+    <VerticalStackLayout>
+        <Label 
+            Text="{Binding UserName}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <ScrollView x:Name="Scroller" HeightRequest="300" >
+            <ListView x:Name ="mList"  ItemsSource="{Binding Messages}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell >
+                            <StackLayout>
+                                <Label Text="{Binding Text}" HorizontalOptions="{Binding Horizontal}"/>
+                            </StackLayout>
+                        </ViewCell>
+                     </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollView>
+        
+        <HorizontalStackLayout>
+            <Entry  x:Name="messageEntry" WidthRequest="240" Placeholder="Type your message ..." Margin="4" />
+            <Button WidthRequest="60" Text="Send" Clicked="Button_Clicked" Margin="4"/>
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
+</ContentView>

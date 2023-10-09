@@ -8,10 +8,10 @@ public partial class App : Application
 	{
 		InitializeComponent();
 
-        string privateKey = Preferences.Get("privateKey", string.Empty);
-        if (string.IsNullOrEmpty( privateKey))
-			MainPage = new LoginPage();
-		else
-            MainPage = new MainPage(privateKey);
+        //string privateKey = Preferences.Get("privateKey", string.Empty);
+        //if (string.IsNullOrEmpty(privateKey))
+		//	MainPage = new LoginPage();
+		//else
+            MainPage = new MainPage("");
     }
 }

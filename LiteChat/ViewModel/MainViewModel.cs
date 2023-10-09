@@ -1,4 +1,5 @@
 ﻿using LiteChat.Services;
+using System.Collections.ObjectModel;
 
 namespace LiteChat.ViewModel;
 
@@ -6,17 +7,24 @@ public class MainViewModel : BaseViewModel
 {
     private readonly IIdentityClient client;
     private readonly string _privateKey;
+    public ObservableCollection<MessageViewModel> Messages { get; set; } = new ObservableCollection<MessageViewModel>();
     public MainViewModel(UserDto user) : base()
     {
         _userName = user.UserName;
         _userId = user.UserId;
         _publicKey = user.PublicKey;
+        Messages.Add(new MessageViewModel(new Model.Message() { Text = " AAAAA" }));
+        Messages.Add(new MessageViewModel(new Model.Message() { Text = " BBBBBB" }));
+        Messages.Add(new MessageViewModel(new Model.Message() { Text = " CCCCCC" }));
     }
     public MainViewModel(string privateKey) : base()
     {
         client = new IdentityClient();
         _privateKey = privateKey;
         _ = UpdateUserInfoAsync();
+        Messages.Add(new MessageViewModel(new Model.Message() { Text = " AAAAA" }));
+        Messages.Add(new MessageViewModel(new Model.Message() { Text = " BBBBBB" }));
+        Messages.Add(new MessageViewModel(new Model.Message() { Text = " CCCCCC" }));
     }
 
     private async Task UpdateUserInfoAsync()
