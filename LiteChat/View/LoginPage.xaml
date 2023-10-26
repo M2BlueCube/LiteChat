@@ -4,9 +4,9 @@
              x:Class="LiteChat.View.LoginPage"
              xmlns:viewModel="clr-namespace:LiteChat.ViewModel"
              Title="LoginPage">
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <viewModel:LoginViewModel/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
     
     <VerticalStackLayout
             Spacing="25"

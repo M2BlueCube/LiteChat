@@ -3,20 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:view="clr-namespace:LiteChat.View"
              x:Class="LiteChat.MainPage">
-
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0"
             VerticalOptions="Center">
-
-            <view:ChatBox WidthRequest="300" HeightRequest="400" />
-
-            <Label
-                Text="{Binding UserId}"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="18"
-                HorizontalOptions="Center" />
 
             <Label
                 Text="{Binding UserName}"
@@ -24,14 +15,30 @@
                 FontSize="18"
                 HorizontalOptions="Center" />
 
-            <Label
-                Text="{Binding PublicKey}"
-                SemanticProperties.HeadingLevel="Level2"
-                FontSize="14"
+            <ScrollView x:Name="Scroller" Grid.Row="0" >
+                <ListView x:Name ="mList"  ItemsSource="{Binding MyFriends}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell >
+                                <StackLayout Margin="4">
+                                    <Label Text="{Binding UserName}"/>
+                                    <Button Text="{Binding UserName}" Command="{Binding OpenChatBoxCommand}" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollView>
+
+
+            <Button
+                x:Name="CounterBtn"
+                Text="Click me"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="OnCounterClicked"
                 HorizontalOptions="Center" />
 
-
-                <Button
+            <Button
                 Text="Logout"
                 Clicked="OnLogoutClicked"
                 Background="Darkred"

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LiteChat.View.ChatPage"
+             Title="ChatPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"  />
+            <RowDefinition Height="1*"  />
+        </Grid.RowDefinitions>
+        <Label 
+            Text="{Binding UserName}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <ScrollView x:Name="Scroller" Grid.Row="0" >
+            <ListView x:Name ="mList"  ItemsSource="{Binding Messages}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell >
+                            <StackLayout Margin="4">
+                                <Label Text="{Binding Text}" HorizontalOptions="{Binding Horizontal}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!--<StackLayout x:Name="mList" >
+            </StackLayout>-->
+        </ScrollView>
+
+        <Grid VerticalOptions="End" Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Entry  x:Name="messageEntry" Text="{Binding NewMessage}" Grid.Column="0" Placeholder="Type your message ..." Margin="4" />
+            <Button Grid.Column="1" Text="Send" Command="{Binding SendMessageCommand}" Margin="4"/>
+        </Grid>
+
+    </Grid>
+</ContentPage>

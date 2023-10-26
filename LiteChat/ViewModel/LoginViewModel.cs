@@ -8,13 +8,14 @@ namespace LiteChat.ViewModel;
 public class LoginViewModel : BaseViewModel
 {
     private readonly IRsaService rsa;
-    private IdentityModel Identity { get; set; }
     public ICommand LogInCommand { get; }
     public ICommand RegisterCommand { get; }
     public ICommand GenerateKeyCommand { get; }
-    public LoginViewModel()
+
+    private readonly IUserModel _userModel;
+    public LoginViewModel(IUserModel userModel)
     {
-        Identity = new();
+        _userModel = userModel;
         rsa = new RsaService();
         _message = "defult message";
         _messageColor = Colors.Blue;
@@ -66,9 +67,11 @@ public class LoginViewModel : BaseViewModel
     {
         try
         {
-            var user = await Identity.Register(_privateKey);
+            var user = await _userModel.Register(_privateKey);
             LogInfo("You are successfully Registered.");
             LogInfo($"user : {JsonConvert.SerializeObject(user)}");
+
+            Application.Current.MainPage = new NavigationPage(new MainPage(_userModel));
         }
         catch (Exception ex)
         {
@@ -79,8 +82,10 @@ public class LoginViewModel : BaseViewModel
     {
         try
         {
-            var user = await Identity.LoginAsync(_privateKey);
+            var user = await _userModel.LoginAsync(_privateKey);
             LogInfo($"user : {JsonConvert.SerializeObject(user)}");
+
+            Application.Current.MainPage = new NavigationPage(new MainPage(_userModel));
         }
         catch (Exception ex)
         {

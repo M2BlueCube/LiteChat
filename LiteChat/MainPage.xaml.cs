@@ -1,4 +1,4 @@
-﻿using LiteChat.Services;
+﻿using LiteChat.Model;
 using LiteChat.View;
 using LiteChat.ViewModel;
 
@@ -6,19 +6,24 @@ namespace LiteChat;
 
 public partial class MainPage : ContentPage
 {
-	private readonly string PrivateKey;
+    private readonly IUserModel _userModel;
+    public MainPage(IUserModel userModel)
+    {
+        _userModel = userModel;
+        InitializeComponent();
+        BindingContext = new MainViewModel(userModel);
+    }
 
-	public MainPage(string privateKey)
-	{
-		InitializeComponent();
-        BindingContext = new MainViewModel(privateKey);
+    private async  void OnCounterClicked(object sender, EventArgs e)
+    {
+        SemanticScreenReader.Announce(CounterBtn.Text);
+        var x = await _userModel.GetAllUsers();
     }
 
     private void OnLogoutClicked(object sender, EventArgs e)
     {
-        Preferences.Remove("privateKey");
-        Preferences.Remove("token");
-        Application.Current.MainPage = new LoginPage();
+        _userModel.Logout();
+        Application.Current.MainPage = new LoginPage(new (_userModel));
     }
 }
 

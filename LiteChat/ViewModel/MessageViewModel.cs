@@ -10,9 +10,7 @@ public class MessageViewModel : BaseViewModel
     {
         _userName = "Morteza";
         _text = message.Text;
-        _horizontal = message.From == _userName ? new LayoutOptions(LayoutAlignment.End,true)
-            : message.To == _userName ? new LayoutOptions(LayoutAlignment.Start, true)
-            : new LayoutOptions(LayoutAlignment.Center, true);
+        _horizontal = message.IsMine ? new LayoutOptions(LayoutAlignment.End, true) : new LayoutOptions(LayoutAlignment.Start, true);
     }
     public string UserName
     {

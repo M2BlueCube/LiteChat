@@ -1,59 +1,45 @@
-﻿using LiteChat.Services;
+﻿using LiteChat.Model;
+using LiteChat.Services;
 using System.Collections.ObjectModel;
 
 namespace LiteChat.ViewModel;
 
 public class MainViewModel : BaseViewModel
 {
-    private readonly IIdentityClient client;
-    private readonly string _privateKey;
-    public ObservableCollection<MessageViewModel> Messages { get; set; } = new ObservableCollection<MessageViewModel>();
-    public MainViewModel(UserDto user) : base()
+    public ObservableCollection<ChatUserViewModel> MyFriends { get; set; } = new ObservableCollection<ChatUserViewModel>();
+
+    private readonly IUserModel _userModel;
+
+    public MainViewModel(IUserModel userModel)
     {
-        _userName = user.UserName;
-        _userId = user.UserId;
-        _publicKey = user.PublicKey;
-        Messages.Add(new MessageViewModel(new Model.Message() { Text = " AAAAA" }));
-        Messages.Add(new MessageViewModel(new Model.Message() { Text = " BBBBBB" }));
-        Messages.Add(new MessageViewModel(new Model.Message() { Text = " CCCCCC" }));
-    }
-    public MainViewModel(string privateKey) : base()
-    {
-        client = new IdentityClient();
-        _privateKey = privateKey;
-        _ = UpdateUserInfoAsync();
-        Messages.Add(new MessageViewModel(new Model.Message() { Text = " AAAAA" }));
-        Messages.Add(new MessageViewModel(new Model.Message() { Text = " BBBBBB" }));
-        Messages.Add(new MessageViewModel(new Model.Message() { Text = " CCCCCC" }));
+        _userModel = userModel;
+        _userName = userModel.User?.UserName;
+        _ = UpdateFriends();
     }
 
-    private async Task UpdateUserInfoAsync()
+    private async Task UpdateFriends()
     {
-        var token = await client.LoginAsync(_privateKey);
-        var user = await client.GetUserAsync(token);
-        UserName = user.UserName;
-        UserId = user.UserId;
-        PublicKey = user.PublicKey;
+        if (_userModel.IsLoggedIn)
+        {
+            MyFriends.Clear();
+            var users = await _userModel.GetAllUsers();
+            foreach (var user in users)
+                MyFriends.Add(new(_userModel, user));
+        }
+        else
+        {
+            var t = new TimeSpan(0, 0, 0, 0, 1000);
+            Device.StartTimer(t, () =>
+            {
+                _ = UpdateFriends();
+                return false; // runs again, or false to stop
+            });
+        }
     }
-
-    public string UserId
-    {
-        get => _userId;
-        set => SetField(ref _userId, value);
-    }
-    private string _userId;
-
     public string UserName
     {
         get => _userName;
         set => SetField(ref _userName, value);
     }
     private string _userName;
-    public string PublicKey
-    {
-        get => _publicKey;
-        set => SetField(ref _publicKey, value);
-    }
-    private string _publicKey;
-
 }
