@@ -29,6 +29,12 @@
             FontSize="14"
             HorizontalOptions="Center" />
 
+        <Entry 
+                Placeholder="Enter your username ..."
+                Text="{Binding UserName}" 
+                WidthRequest="360" 
+                Margin="10" />
+
         <HorizontalStackLayout HorizontalOptions="Center" >
             <Entry 
                 Placeholder="Enter your private key here ..."

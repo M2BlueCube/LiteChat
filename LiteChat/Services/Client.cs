@@ -22,13 +22,14 @@ internal class Client : IClient
         return cts.Token;
     }
 
-    public async Task RegisterAsync(string privateKey, CancellationToken? cancellationToken = null)
+    public async Task RegisterAsync(string privateKey, string userName, CancellationToken? cancellationToken = null)
     {
         var ct = cancellationToken ?? GetDefulatCancellationToken();
         var publicKey = rsa.GetPublicKeyFromPrivateKey(privateKey);
         var request = new LoginRequest()
         {
             PublicKey = publicKey,
+            UserName = userName,
             Signature = rsa.Sign(publicKey, privateKey),
         };
         var content = GetContent(request);

@@ -5,15 +5,16 @@
              Title="ChatPage">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="1*"  />
             <RowDefinition Height="10*"  />
             <RowDefinition Height="1*"  />
         </Grid.RowDefinitions>
-        <Label 
-            Text="{Binding UserName}"
+        <Label  Grid.Row="0" 
+            Text="{Binding ToUserName}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
-        <ScrollView x:Name="Scroller" Grid.Row="0" >
+        <ScrollView x:Name="Scroller" Grid.Row="1" >
             <ListView x:Name ="mList"  ItemsSource="{Binding Messages}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -30,7 +31,7 @@
             </StackLayout>-->
         </ScrollView>
 
-        <Grid VerticalOptions="End" Grid.Row="1" >
+        <Grid VerticalOptions="End" Grid.Row="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*" />
                 <ColumnDefinition Width="1*" />

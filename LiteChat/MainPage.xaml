@@ -10,6 +10,11 @@
             VerticalOptions="Center">
 
             <Label
+                Text="{Binding UserId}"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="18"
+                HorizontalOptions="Center" />
+            <Label
                 Text="{Binding UserName}"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="18"
@@ -21,7 +26,7 @@
                         <DataTemplate>
                             <ViewCell >
                                 <StackLayout Margin="4">
-                                    <Label Text="{Binding UserName}"/>
+                                    <Label Text="{Binding UserId}"/>
                                     <Button Text="{Binding UserName}" Command="{Binding OpenChatBoxCommand}" />
                                 </StackLayout>
                             </ViewCell>

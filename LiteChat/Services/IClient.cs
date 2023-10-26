@@ -5,7 +5,7 @@ namespace LiteChat.Services;
 public interface IClient
 {
    
-    Task RegisterAsync(string privateKey, CancellationToken? cancellationToken = null);
+    Task RegisterAsync(string privateKey, string userName, CancellationToken? cancellationToken = null);
     Task<string> LoginAsync(string privateKey, CancellationToken? cancellationToken = null);
     Task<UserDto> GetUserAsync(CancellationToken? cancellationToken = null);
     Task<IEnumerable<UserDto>> GetAllUsersAsync( CancellationToken? cancellationToken = null);

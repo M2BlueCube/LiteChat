@@ -14,6 +14,7 @@ public class MainViewModel : BaseViewModel
     {
         _userModel = userModel;
         _userName = userModel.User?.UserName;
+        _userId = userModel.User?.UserId;
         _ = UpdateFriends();
     }
 
@@ -21,10 +22,13 @@ public class MainViewModel : BaseViewModel
     {
         if (_userModel.IsLoggedIn)
         {
-            MyFriends.Clear();
+            UserName = _userModel.User?.UserName;
+            UserId = _userModel.User?.UserId;
+            //MyFriends.Clear();
             var users = await _userModel.GetAllUsers();
             foreach (var user in users)
-                MyFriends.Add(new(_userModel, user));
+                if (user.UserId != _userModel.User.UserId)
+                    MyFriends.Add(new(_userModel, user));
         }
         else
         {
@@ -42,4 +46,10 @@ public class MainViewModel : BaseViewModel
         set => SetField(ref _userName, value);
     }
     private string _userName;
+    public string UserId
+    {
+        get => _userId;
+        set => SetField(ref _userId, value);
+    }
+    private string _userId;
 }

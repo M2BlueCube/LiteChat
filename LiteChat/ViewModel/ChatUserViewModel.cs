@@ -30,4 +30,5 @@ public class ChatUserViewModel : BaseViewModel
     }
 
     public string UserName => _toUser.UserName;
+    public string UserId => _toUser.UserId;
 }

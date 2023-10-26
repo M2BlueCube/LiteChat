@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LiteChat.Services;
 
-public class ChatClient : IChatClient
+public class ChatClient 
 {
     private readonly string BaseUrl;
     private readonly HttpClient _client;

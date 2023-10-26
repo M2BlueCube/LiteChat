@@ -18,13 +18,19 @@ public class LoginViewModel : BaseViewModel
         _userModel = userModel;
         rsa = new RsaService();
         _message = "defult message";
+        _userName = "";
         _messageColor = Colors.Blue;
         LogInCommand = new AsyncCommandHandler(Login, CanLogin);
         RegisterCommand = new AsyncCommandHandler(Register, CanRegister);
         GenerateKeyCommand = new AsyncCommandHandler(GenerateKey, ()=>true);
     }
 
-    
+    public string UserName
+    {
+        get => _userName;
+        set => SetField(ref _userName, value);
+    }
+    private string _userName;
 
     public string PrivateKey
     {
@@ -67,7 +73,7 @@ public class LoginViewModel : BaseViewModel
     {
         try
         {
-            var user = await _userModel.Register(_privateKey);
+            var user = await _userModel.Register(_privateKey, _userName);
             LogInfo("You are successfully Registered.");
             LogInfo($"user : {JsonConvert.SerializeObject(user)}");
 

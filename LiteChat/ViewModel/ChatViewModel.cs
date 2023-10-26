@@ -20,13 +20,20 @@ public class ChatViewModel : BaseViewModel
     private int LatestId = 0;
 
     public event EventHandler MessagesHeightChanged;
-   
-    
+
+
+    public string ToUserName
+    {
+        get => _toUserName;
+        set => SetField(ref _toUserName, value);
+    }
+    private string _toUserName;
 
     public ChatViewModel(IUserModel userModel, UserDto toUserDto)
     {
         _userModel = userModel;
         _toUserDto = toUserDto;
+        _toUserName = toUserDto.UserName;
         SendMessageCommand = new AsyncCommandHandler(SendMessage, () => true);
 
 

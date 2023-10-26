@@ -8,7 +8,7 @@ public interface IUserModel
     bool IsLoggedIn { get; set; }
     UserDto? User { get; }
     Task<UserDto> LoginAsync(string privateKey);
-    Task<UserDto> Register(string privateKey);
+    Task<UserDto> Register(string privateKey, string userName);
     Task<IEnumerable<UserDto>> GetAllUsers();
     void Logout();
     Task SendMessage(string message, UserDto to);

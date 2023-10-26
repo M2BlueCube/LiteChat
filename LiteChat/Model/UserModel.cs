@@ -31,9 +31,9 @@ public class UserModel : IUserModel
         Preferences.Set("privateKey", PrivateKey);
         return User;
     }
-    public async Task<UserDto> Register(string privateKey)
+    public async Task<UserDto> Register(string privateKey, string userName)
     {
-        await _client.RegisterAsync(privateKey);
+        await _client.RegisterAsync(privateKey, userName);
         return await LoginAsync(privateKey);
     }
     public async Task<IEnumerable<UserDto>> GetAllUsers()
