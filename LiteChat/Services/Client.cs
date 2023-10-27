@@ -11,8 +11,8 @@ internal class Client : IClient
     private string Token { get; set; } = null;
     public Client()
     {
-        //_baseUrl = "https://auth.shieldedinbox.com/api/Identity/";
-        _baseUrl = "https://localhost:44310/api/";
+        _baseUrl = "https://auth.shieldedinbox.com/api/";
+        //_baseUrl = "https://localhost:44310/api/";
         rsa = new RsaService();
     }
     private static CancellationToken GetDefulatCancellationToken()

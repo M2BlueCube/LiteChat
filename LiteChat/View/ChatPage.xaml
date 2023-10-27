@@ -9,7 +9,8 @@
             <RowDefinition Height="10*"  />
             <RowDefinition Height="1*"  />
         </Grid.RowDefinitions>
-        <Label  Grid.Row="0" 
+        <Label  
+            Grid.Row="0" 
             Text="{Binding ToUserName}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />

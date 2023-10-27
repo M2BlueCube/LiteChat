@@ -27,7 +27,7 @@ public class MainViewModel : BaseViewModel
             //MyFriends.Clear();
             var users = await _userModel.GetAllUsers();
             foreach (var user in users)
-                if (user.UserId != _userModel.User.UserId)
+                if (user.UserId != _userModel.User.UserId && user.UserName.Count() < 10)
                     MyFriends.Add(new(_userModel, user));
         }
         else

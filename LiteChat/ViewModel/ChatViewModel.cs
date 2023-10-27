@@ -44,16 +44,20 @@ public class ChatViewModel : BaseViewModel
     private void StartGetNewMessagesTimer()
     {
         var t = new TimeSpan(0, 0, 0, 0, 1000);
-        Device.StartTimer(t, () =>
+        Device.StartTimer(t,  () =>
         {
+            if (waitingResponse)
+                return true;
             _ = GetMessages();
             return true; // runs again, or false to stop
         });
     }
+    private bool waitingResponse = false;
     private async Task GetMessages()
     {
         try
         {
+            waitingResponse = true;
             var newMessages = await _userModel.GetChat(_toUserDto, LatestId);
 
             foreach (var item in newMessages)
@@ -67,6 +71,7 @@ public class ChatViewModel : BaseViewModel
         {
             Messages.Add(new(new() { Text = ex.Message, IsMine = true, Timestamp = DateTime.Now }));
         }
+        finally { waitingResponse = false; }
         MessagesHeightChanged.Invoke(this, new EventArgs());
     }
 
