@@ -4,8 +4,9 @@ namespace LiteChat.View;
 
 public partial class LoginPage : ContentPage
 {
-	public LoginPage()
+	public LoginPage(LoginViewModel loginViewModel)
 	{
 		InitializeComponent();
+		BindingContext = loginViewModel;
     }
 }
